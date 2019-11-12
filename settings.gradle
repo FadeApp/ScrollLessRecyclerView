@@ -1,0 +1,2 @@
+include ':sample', ':ScrollLessRecyclerview'
+rootProject.name='ScrollLessRecyclerView'
