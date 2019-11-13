@@ -1,4 +1,7 @@
 # ScrollLessRecyclerview
+[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Download](https://api.bintray.com/packages/modificator/FadeApp/scrollless-recyclerView/images/download.svg) ](https://bintray.com/modificator/FadeApp/scrollless-recyclerView/_latestVersion)
+
 An better scroll widget for E-ink screen
 
 When you make an app for E-ink screen device, the fps make animation feel so bad. You need remove all animation and be fast more.
