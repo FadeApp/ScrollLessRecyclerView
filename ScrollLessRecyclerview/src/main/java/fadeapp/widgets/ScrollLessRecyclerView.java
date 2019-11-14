@@ -3,21 +3,14 @@ package fadeapp.widgets;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.BridgeRecyclerView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ScrollLessRecyclerView extends BridgeRecyclerView {
 
@@ -67,7 +60,7 @@ public class ScrollLessRecyclerView extends BridgeRecyclerView {
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        if (enableScroll){
+        if (enableScroll) {
             return super.onTouchEvent(e);
         }
         boolean superTouchResult = super.onTouchEvent(e);
@@ -92,7 +85,7 @@ public class ScrollLessRecyclerView extends BridgeRecyclerView {
 
     @Override
     public boolean scrollByInternal(int x, int y, MotionEvent ev) {
-        if (enableScroll){
+        if (enableScroll) {
             return super.scrollByInternal(x, y, ev);
         }
         //disable drag scroll effect，e-ink screen don't need it
@@ -104,43 +97,51 @@ public class ScrollLessRecyclerView extends BridgeRecyclerView {
 
     @Override
     public boolean fling(int velocityX, int velocityY) {
-        if (enableScroll){
+        if (enableScroll) {
             return super.fling(velocityX, velocityY);
         }
         flingMoveDistanceX = getSplineFlingDistance(velocityX) * Math.signum(velocityX);
         flingMoveDistanceY = getSplineFlingDistance(velocityY) * Math.signum(velocityY);
         //disable fling scroll effect,e-ink screen don't need it
-        return true;
+        return false;
     }
 
+    boolean canScrollVertical = true;
+    boolean canScrollHorizontally = true;
+
     protected void onTouchScroll(int dx, int dy) {
+        canScrollVertical = true;
+        canScrollHorizontally = true;
         LayoutManager layout = getLayoutManager();
         if (layout != null) {
-
             if (dy > pageScrollThreshold) {
-                if (layout.canScrollVertically()) {
+                if (canScrollVertical && layout.canScrollVertically()) {
+                    canScrollVertical = false;
                     onScrollDown();
-                } else if (layout.canScrollHorizontally()) {
+                } else if (canScrollHorizontally && layout.canScrollHorizontally()) {
+                    canScrollHorizontally = false;
                     onScrollRight();
                 }
             } else if (dy < -pageScrollThreshold) {
-                if (layout.canScrollVertically()) {
+                if (canScrollVertical && layout.canScrollVertically()) {
+                    canScrollVertical = false;
                     onScrollUp();
-                } else if (layout.canScrollHorizontally()) {
+                } else if (canScrollHorizontally && layout.canScrollHorizontally()) {
+                    canScrollHorizontally = false;
                     onScrollLeft();
                 }
             }
 
             if (dx > pageScrollThreshold) {
-                if (layout.canScrollVertically()) {
+                if (canScrollVertical && layout.canScrollVertically()) {
                     onScrollDown();
-                } else if (layout.canScrollHorizontally()) {
+                } else if (canScrollHorizontally && layout.canScrollHorizontally()) {
                     onScrollRight();
                 }
             } else if (dx < -pageScrollThreshold) {
-                if (layout.canScrollVertically()) {
+                if (canScrollVertical && layout.canScrollVertically()) {
                     onScrollUp();
-                } else if (layout.canScrollHorizontally()) {
+                } else if (canScrollHorizontally && layout.canScrollHorizontally()) {
                     onScrollLeft();
                 }
             }
