@@ -13,7 +13,7 @@ The first step is to include ScrollLessRecyclerView into your project, for examp
 ```groovy
 dependencies {
     //...
-    implementation 'fadeapp.widgets:scrollless-recyclerView:1.0.0'
+    implementation 'fadeapp.widgets:scrollless-recyclerView:1.0.1'
     //...
 }
 ```
