@@ -70,11 +70,18 @@ public class ScrollLessRecyclerView extends BridgeRecyclerView {
                     initialTouchX = (int) (e.getX() + 0.5f);
                     initialTouchY = (int) (e.getY() + 0.5f);
                     break;
+                case MotionEvent.ACTION_MOVE:
+                    if (initialTouchX < 0 || initialTouchY < 0){
+                        initialTouchX = (int) (e.getX() + 0.5f);
+                        initialTouchY = (int) (e.getY() + 0.5f);
+                    }
+                    break;
                 case MotionEvent.ACTION_UP:
                     if (isScrollBefore) {
                         int moveDistanceX = (int) (initialTouchX - e.getX() + flingMoveDistanceX);
                         int moveDistanceY = (int) (initialTouchY - e.getY() + flingMoveDistanceY);
                         onTouchScroll(moveDistanceX, moveDistanceY);
+                        initialTouchX = initialTouchY = -1
                     }
                     break;
             }
